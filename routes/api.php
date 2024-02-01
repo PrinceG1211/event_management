@@ -69,12 +69,12 @@ Route::prefix('EventBooking')->group( function () {
     Route::post('delete',[EventBookingController::class,'delete']);
 });
 
-Route::prefix('EventDetails')->group( function () {
-    Route::get('/',[EventDeatilsController::class,'index']);
-    Route::get('/{id}',[EventDeatilsController::class,'show']);
-    Route::post('add',[EventDeatilsController::class,'store']);
-    Route::post('update',[EventDeatilsController::class,'update']);
-    Route::post('delete',[EventDeatilsController::class,'delete']);
+Route::prefix('EventDetail')->group( function () {
+    Route::get('/',[EventDetailController::class,'index']);
+    Route::get('/{id}',[EventDetailController::class,'show']);
+    Route::post('add',[EventDetailController::class,'store']);
+    Route::post('update',[EventDetailController::class,'update']);
+    Route::post('delete',[EventDetailController::class,'delete']);
 });
 
 Route::prefix('Hotel')->group( function () {
@@ -94,14 +94,31 @@ Route::prefix('Inquiry')->group( function () {
     Route::post('delete',[InquiryController::class,'delete']);
 });
 
-Route::prefix('PackageDeatils')->group( function () {
-    Route::get('/',[PackageDeatilsController::class,'index']);
-    Route::get('/{id}',[PackageDeatilsController::class,'show']);
-    Route::post('add',[PackageDeatilsController::class,'store']);
-    Route::post('update',[InquiryController::class,'update']);
-    Route::post('delete',[InquiryController::class,'delete']);
+Route::prefix('PackageDetail')->group( function () {
+    Route::get('/',[PackageDetailController::class,'index']);
+    Route::get('/{id}',[PackageDetailController::class,'show']);
+    Route::post('add',[PackageDetailController::class,'store']);
+    Route::post('update',[PackageDetailController::class,'update']);
+    Route::post('delete',[PackageDetailController::class,'delete']);
 });
 
+Route::prefix('Vendor')->group( function () {
+    Route::get('/',[VendorController::class,'index']);
+    Route::get('/{id}',[VendorController::class,'show']);
+    Route::get('images/{id}',[VendorController::class,'showImage']);
+    Route::post('add',[VendorController::class,'store']);
+    Route::post('update',[VendorController::class,'update']);
+    Route::post('delete',[VendorController::class,'delete']);
+});
+
+Route::prefix('Venue')->group( function () {
+    Route::get('/',[VenueController::class,'index']);
+    Route::get('/{id}',[VenueController::class,'show']);
+    Route::get('images/{id}',[VenueController::class,'showImage']);
+    Route::post('add',[VenueController::class,'store']);
+    Route::post('update',[VenueController::class,'update']);
+    Route::post('delete',[VenueController::class,'delete']);
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
