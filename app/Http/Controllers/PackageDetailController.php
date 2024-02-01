@@ -54,7 +54,7 @@ class PackageDetailController extends Controller
 
     public function show($id): JsonResponse
     {
-        $Employee = PackageDetail::where('isActive', 1)->where('packageID', $id)->first();
+        $PackageDetail = PackageDetail::where('isActive', 1)->where('packageID', $id)->first();
 
         if (is_null($PackageDetail)) {
             return $this->sendResponse('failure', $PackageDetail, 'No PackageDetail Found.');
@@ -79,7 +79,7 @@ class PackageDetailController extends Controller
 
         $id = $request->post('packageID');
         $PackageDetail = PackageDetail::find($id);
-        if ($Employee != null) {
+        if ($PackageDetail != null) {
             $PackageDetail->packageID = $request->post('packageID');
             $PackageDetail->packageName = $request->post('packageName');
             $PackageDetail->packageDescription = $request->post('packageDescription');

@@ -14,11 +14,11 @@ class InquiryController extends Controller
     public function index(): JsonResponse
     {
        
-        $EmpPackageDetailloyee = PackageDetail::where('isActive', 1)->get();
-        if ($PackageDetail != null) {
-            return $this->sendResponse('success', $PackageDetail, 'PackageDetail Found.');
+        $Inquiry = PackageDetail::where('isActive', 1)->get();
+        if ($Inquiry != null) {
+            return $this->sendResponse('success', $Inquiry, 'Inquiry Found.');
         } else {
-            return $this->sendResponse('failure', $PackageDetail, 'No PackageDetail Found.');
+            return $this->sendResponse('failure', $Inquiry, 'No Inquiry Found.');
         }
 
     }
@@ -29,10 +29,13 @@ class InquiryController extends Controller
 
         $validator = Validator::make($input, [
             
-            'packageID' => 'required',
-            'packageName' => 'required',
-            'packageDescription' => 'required',
-            'price' => 'required',
+            'inquiryID' => 'required',
+            'name' => 'required',
+            'email' => 'required',
+            'mobileNo' => 'required',
+            'subject' => 'required',
+            'status' => 'required',
+            'description' => 'required',
           
         ]);
 
@@ -40,78 +43,89 @@ class InquiryController extends Controller
             return $this->sendResponse('failure', 'Validation Error.', $validator->errors());
         }
 
-        $PackageDetail = new PackageDetail();
-        $PackageDetail->packageID = $request->post('packageID');
-        $PackageDetail->packageName = $request->post('packageName');
-        $PackageDetail->packageDescription = $request->post('packageDescription');
-        $PackageDetail->price = $request->post('price');
+        $Inquiry = new Inquiry();
+        $Inquiry->inquiryID = $request->post('inquiryID');
+        $PackInquiryageDetail->name = $request->post('name');
+        $Inquiry->email = $request->post('email');
+        $Inquiry->mobileNo = $request->post('mobileNo');
+        $Inquiry->subject = $request->post('subject');
+        $Inquiry->status = $request->post('status');
+        $Inquiry->description = $request->post('description');
         
        
-        $PackageDetail->save();
+        $Inquiry->save();
 
-        return $this->sendResponse('success', $PackageDetail->packageID, 'PackageDetail Added successfully.');
+        return $this->sendResponse('success', $Inquiry->Inquiry, 'Inquiry Added successfully.');
     }
 
     public function show($id): JsonResponse
     {
-        $Employee = PackageDetail::where('isActive', 1)->where('packageID', $id)->first();
+        $Inquiry = Inquiry::where('isActive', 1)->where('inquiryID', $id)->first();
 
         if (is_null($PackageDetail)) {
-            return $this->sendResponse('failure', $PackageDetail, 'No PackageDetail Found.');
+            return $this->sendResponse('failure', $Inquiry, 'No Inquiry Found.');
         }
 
-        return $this->sendResponse('success', $PackageDetail, 'PackageDetail Found.');
+        return $this->sendResponse('success', $Inquiry, 'Inquiry Found.');
     }
     public function update(Request $request): JsonResponse
     {
         $input = $request->all();
 
         $validator = Validator::make($input, [
-            'packageID' => 'required',
-            'packageName' => 'required',
-            'packageDescription' => 'required',
-            'price' => 'required',
+              
+            'inquiryID' => 'required',
+            'name' => 'required',
+            'email' => 'required',
+            'mobileNo' => 'required',
+            'subject' => 'required',
+            'status' => 'required',
+            'description' => 'required',
+
         ]);
 
         if ($validator->fails()) {
             return $this->sendResponse('failure', 'Validation Error.', $validator->errors());
         }
 
-        $id = $request->post('packageID');
-        $PackageDetail = PackageDetail::find($id);
-        if ($Employee != null) {
-            $PackageDetail->packageID = $request->post('packageID');
-            $PackageDetail->packageName = $request->post('packageName');
-            $PackageDetail->packageDescription = $request->post('packageDescription');
-            $PackageDetail->price = $request->post('price');
-
-            $updated = $PackageDetail->save();
+        $id = $request->post('inquiryID');
+        $Inquiry = Inquiry::find($id);
+        if ($Inquiry != null) {
+            $Inquiry->inquiryID = $request->post('inquiryID');
+            $PackInquiryageDetail->name = $request->post('name');
+            $Inquiry->email = $request->post('email');
+            $Inquiry->mobileNo = $request->post('mobileNo');
+            $Inquiry->subject = $request->post('subject');
+            $Inquiry->status = $request->post('status');
+            $Inquiry->description = $request->post('description');
+            
+            $updated = $Inquiry->save();
             if ($updated == 1) {
-                return $this->sendResponse('success', $updated, 'PackageDetail updated successfully.');
+                return $this->sendResponse('success', $updated, 'Inquiry updated successfully.');
             } else {
-                return $this->sendResponse('failure', $updated, 'PackageDetail Not updated.');
+                return $this->sendResponse('failure', $updated, 'Inquiry Not updated.');
             }
 
         } else {
-            return $this->sendResponse('failure', $PackageDetail, 'PackageDetail Not Found.');
+            return $this->sendResponse('failure', $Inquiry, 'Inquiry Not Found.');
         }
 
     }
 
     public function delete(Request $request): JsonResponse
     {
-        $id = $request->post('packageID');
-        $PackageDetail = PackageDetail::find($id);
-        if ($PackageDetail != null) {
-            $PackageDetail->isActive = 0;
-            $updated = $PackageDetail->save();
+        $id = $request->post('inquiryID');
+        $Inquiry = Inquiry::find($id);
+        if ($Inquiry != null) {
+            $Inquiry->isActive = 0;
+            $updated = $Inquiry->save();
             if ($updated == 1) {
-                return $this->sendResponse('success', $updated, 'PackageDetail Deleted successfully.');
+                return $this->sendResponse('success', $updated, 'Inquiry Deleted successfully.');
             } else {
-                return $this->sendResponse('failure', $updated, 'PackageDetail Not updated.');
+                return $this->sendResponse('failure', $updated, 'Inquiry Not updated.');
             }
         } else {
-            return $this->sendResponse('failure', $PackageDetail, 'PackageDetail Not Found.');
+            return $this->sendResponse('failure', $Inquiry, 'Inquiry Not Found.');
         }
     }
 }
