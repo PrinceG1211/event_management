@@ -48,20 +48,24 @@ class VendorController extends Controller
 
         $Vendor = new Vendor();
         $Vendor->vendorID = $request->post('vendorID');
-        $Vendor->name = $request->post('name');
+        $Vendor->bname = $request->post('bname');
+        $Vendor->vendorName = $request->post('vendorName');
+        $Vendor->contactPerson = $request->post('contactPerson');
         $Vendor->email = $request->post('email');
         $Vendor->mobileNo = $request->post('mobileNo');
-        $Vendor->dob = $request->post('dob');
-        $Vendor->doj = $request->post('doj');
-        $Vendor->type = $request->post('type');
+        $Vendor->address = $request->post('address');
+        $Vendor->category = $request->post('category');
+        $Vendor->packageID = $request->post('packageID');
+        $Vendor->price = $request->post('price');
+        $Vendor->image = $request->post('image');
         $Vendor->save();
 
-        return $this->sendResponse('success', $Vendor->employeeID, 'Vendor Added successfully.');
+        return $this->sendResponse('success', $Vendor->vendorID, 'Vendor Added successfully.');
     }
 
     public function show($id): JsonResponse
     {
-        $Vendor = Vendor::where('isActive', 1)->where('employeeID', $id)->first();
+        $Vendor = Vendor::where('isActive', 1)->where('vendorID', $id)->first();
 
         if (is_null($Vendor)) {
             return $this->sendResponse('failure', $Vendor, 'No Vendor Found.');
@@ -74,13 +78,16 @@ class VendorController extends Controller
         $input = $request->all();
 
         $validator = Validator::make($input, [
-            'employeeID' => 'required',
-            'name' => 'required',
+            'bname' => 'required',
+            'vendorName' => 'required',
+            'contactPerson' => 'required',
             'email' => 'required',
             'mobileNo' => 'required',
-            'dob' => 'required',
-            'doj' => 'required',
-            'type' => 'required',
+            'address' => 'required',
+            'category' => 'required',
+            'packageID' => 'required',
+            'price' => 'required',
+            'image' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -90,13 +97,17 @@ class VendorController extends Controller
         $id = $request->post('employeeID');
         $Vendor = Vendor::find($id);
         if ($Vendor != null) {
-            $Vendor->name = $request->post('name');
+            $Vendor->vendorID = $request->post('vendorID');
+            $Vendor->bname = $request->post('bname');
+            $Vendor->vendorName = $request->post('vendorName');
+            $Vendor->contactPerson = $request->post('contactPerson');
             $Vendor->email = $request->post('email');
             $Vendor->mobileNo = $request->post('mobileNo');
-            $Vendor->dob = $request->post('dob');
-            $Vendor->doj = $request->post('doj');
-            $Vendor->type = $request->post('type');
-            
+            $Vendor->address = $request->post('address');
+            $Vendor->category = $request->post('category');
+            $Vendor->packageID = $request->post('packageID');
+            $Vendor->price = $request->post('price');
+            $Vendor->image = $request->post('image');
             $updated = $Vendor->save();
             if ($updated == 1) {
                 return $this->sendResponse('success', $updated, 'Vendor updated successfully.');
@@ -112,11 +123,11 @@ class VendorController extends Controller
 
     public function delete(Request $request): JsonResponse
     {
-        $id = $request->post('employeeID');
+        $id = $request->post('vendorID');
         $Vendor = Vendor::find($id);
         if ($Vendor != null) {
             $Vendor->isActive = 0;
-            $updated = $EmVendorployee->save();
+            $updated = $Vendor->save();
             if ($updated == 1) {
                 return $this->sendResponse('success', $updated, 'Vendor Deleted successfully.');
             } else {
