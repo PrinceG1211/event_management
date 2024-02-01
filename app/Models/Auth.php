@@ -17,11 +17,11 @@ class Auth extends Model
         'type',
         'email',
         'mobileNo',
-        'isActive',
+        'isActive'
     ];
     protected $dates = [
         'addedOn',
-        'updatedOn'
+        'updatedOn',
     ];
 
     protected static function boot()
@@ -36,6 +36,7 @@ class Auth extends Model
             $model->updatedOn = $model->freshTimestamp();
         });
     }
+
 
 }
 
