@@ -15,7 +15,8 @@ class VendorController extends Controller
     public function index(): JsonResponse
     {
         $Vendor = Vendor::where('isActive', 1)->with('Vendor','Package',)->get()->each(function ($Vendor,$Package) {
-            $Vendor->Package = $Vendor->Package->packageID;  
+            $Vendor->vendorID = $Vendor->Vendor->vendorID;
+            $Vendor->packageId = $Vendor->Package->packageID;  
          });
         $Vendor = Vendor::where('isActive', 1)->get();
         if ($Vendor != null) {
@@ -109,7 +110,7 @@ class VendorController extends Controller
             return $this->sendResponse('failure', 'Validation Error.', $validator->errors());
         }
 
-        $id = $request->post('employeeID');
+        $id = $request->post('vendorID');
         $Vendor = Vendor::find($id);
         if ($Vendor != null) {
             $Vendor->vendorID = $request->post('vendorID');
