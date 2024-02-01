@@ -14,7 +14,7 @@ class InquiryController extends Controller
     public function index(): JsonResponse
     {
        
-        $Inquiry = PackageDetail::where('isActive', 1)->get();
+        $Inquiry = Inquiry::where('isActive', 1)->get();
         if ($Inquiry != null) {
             return $this->sendResponse('success', $Inquiry, 'Inquiry Found.');
         } else {
@@ -62,7 +62,7 @@ class InquiryController extends Controller
     {
         $Inquiry = Inquiry::where('isActive', 1)->where('inquiryID', $id)->first();
 
-        if (is_null($PackageDetail)) {
+        if (is_null($Inquiry)) {
             return $this->sendResponse('failure', $Inquiry, 'No Inquiry Found.');
         }
 
