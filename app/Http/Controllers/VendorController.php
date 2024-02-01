@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller as Controller;
 use App\Models\Vendor;
+use App\Models\Image;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Validator;
@@ -13,7 +14,9 @@ class VendorController extends Controller
 
     public function index(): JsonResponse
     {
-       
+        $Vendor = Vendor::where('isActive', 1)->with('Vendor','Package',)->get()->each(function ($Vendor,$Package) {
+            $Vendor->Package = $Vendor->Package->packageID;  
+         });
         $Vendor = Vendor::where('isActive', 1)->get();
         if ($Vendor != null) {
             return $this->sendResponse('success', $Vendor, 'Vendor Found.');
@@ -39,6 +42,7 @@ class VendorController extends Controller
             'packageID' => 'required',
             'price' => 'required',
             'image' => 'required',
+            'coverImage' => 'required|image|max:2048',
             
         ]);
 
@@ -58,7 +62,17 @@ class VendorController extends Controller
         $Vendor->packageID = $request->post('packageID');
         $Vendor->price = $request->post('price');
         $Vendor->image = $request->post('image');
+        $coverImage = $request->file('coverImage');
+        $Vendor->coverImage = $this->uploadImage($coverImage, "Vendor");
         $Vendor->save();
+
+        $images = $request->file('images');
+        foreach($images as $image){
+            $Image = new Image();
+            $Image->productID=$product->productID;
+            $Image->path = $this->uploadImage($image, "product");
+            $Image->save();
+        }
 
         return $this->sendResponse('success', $Vendor->vendorID, 'Vendor Added successfully.');
     }
@@ -88,6 +102,7 @@ class VendorController extends Controller
             'packageID' => 'required',
             'price' => 'required',
             'image' => 'required',
+            'coverImage' => 'required|image|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -108,6 +123,11 @@ class VendorController extends Controller
             $Vendor->packageID = $request->post('packageID');
             $Vendor->price = $request->post('price');
             $Vendor->image = $request->post('image');
+            $coverImage = $request->file('coverImage');
+            if($coverImage!=""){
+                $product->coverImage = $this->uploadImage($coverImage, "product");
+            }
+            
             $updated = $Vendor->save();
             if ($updated == 1) {
                 return $this->sendResponse('success', $updated, 'Vendor updated successfully.');
@@ -135,6 +155,23 @@ class VendorController extends Controller
             }
         } else {
             return $this->sendResponse('failure', $Vendor, 'Vendor Not Found.');
+        }
+    }
+
+    public function deleteImages(Request $request): JsonResponse
+    {
+        $id = $request->post('imageID');
+        $Image = ProductImage::find($id);
+        if ($Image != null) {
+            $deleted = $this->deleteImage($Image->image);
+            if ($deleted) {
+                $Image->delete();
+                return $this->sendResponse('success', $updated, 'Image Deleted successfully.');
+            } else {
+                return $this->sendResponse('failure', $updated, ' Image Not delete.');
+            }
+        } else {
+            return $this->sendResponse('failure', $Image, ' Image Not Found.');
         }
     }
 }
