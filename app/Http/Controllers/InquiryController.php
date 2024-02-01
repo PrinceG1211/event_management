@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller as Controller;
-use App\Models\PackageDetail;
+use App\Models\Inquiry;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Validator;
 
-class PackageDetailController extends Controller
+class InquiryController extends Controller
 {
 
     public function index(): JsonResponse
     {
        
-        $PackageDetail = PackageDetail::where('isActive', 1)->get();
+        $EmpPackageDetailloyee = PackageDetail::where('isActive', 1)->get();
         if ($PackageDetail != null) {
             return $this->sendResponse('success', $PackageDetail, 'PackageDetail Found.');
         } else {
