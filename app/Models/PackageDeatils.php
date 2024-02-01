@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PackageDetail extends Model
 {
-    protected $table = 'package_detail_tb';
+    protected $table = 'package_tb';
     protected $primaryKey='packageID';
     protected $fillable=[
         'packageName',
