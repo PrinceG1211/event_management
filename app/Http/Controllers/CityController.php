@@ -39,7 +39,7 @@ class CityController extends Controller
         $City->cityID = $request->post('cityID');
         $City->cityName = $request->post('cityName');
        
-        $Auth->save();
+        $City->save();
 
         return $this->sendResponse('success', $City->cityID, 'City Added successfully.');
     }
