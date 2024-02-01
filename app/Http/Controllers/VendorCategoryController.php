@@ -45,7 +45,7 @@ class VendorCategoryController extends Controller
         $VendorCategory->categoryName = $request->post('categoryName');
         $VendorCategory->parentID = $request->post('parentID');
        
-        $Employee->save();
+        $VendorCategory->save();
 
         return $this->sendResponse('success', $VendorCategory->categoryID, 'Vendor Category Added successfully.');
     }
