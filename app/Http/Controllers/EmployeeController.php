@@ -120,7 +120,7 @@ class EmployeeController extends Controller
                 return $this->sendResponse('failure', $updated, 'Employee Not updated.');
             }
         } else {
-            return $this->sendResponse('failure', $product, 'Employee Not Found.');
+            return $this->sendResponse('failure', $Employee, 'Employee Not Found.');
         }
     }
 }
