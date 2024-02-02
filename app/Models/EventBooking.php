@@ -12,6 +12,7 @@ class EventBooking extends Model
     protected $primaryKey='bookingID';
     protected $fillable=[
         'bookingType',
+        'eventID',
         'customerID',
         'bookingDate',
         'bookingStartDate',
