@@ -46,7 +46,7 @@ class EmployeeEventController extends Controller
         $EmployeeEvent->EmployeeID = $request->post('EmployeeID');
         $EmployeeEvent->EventID = $request->post('EventID');
        
-        $product->save();
+        $EmployeeEvent->save();
 
         return $this->sendResponse('success', $EmployeeEvent->EmployeeEventID, 'EmployeeEvent created successfully.');
     }
