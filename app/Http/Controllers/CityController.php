@@ -46,7 +46,7 @@ class CityController extends Controller
 
     public function show($id): JsonResponse
     {
-        $City = Auth::where('isActive', 1)->where('cityID', $id)->first();
+        $City = City::where('isActive', 1)->where('cityID', $id)->first();
 
         if (is_null($City)) {
             return $this->sendResponse('failure', $City, 'No City Found.');
