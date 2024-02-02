@@ -37,7 +37,7 @@ class VendorController extends Controller
             'vendorName' => 'required',
             'contactPerson' => 'required',
             'email' => 'required',
-            'mobileNo' => 'required',
+            'contactNo' => 'required',
             'address' => 'required',
             'category' => 'required',
             'packageID' => 'required',
@@ -57,6 +57,7 @@ class VendorController extends Controller
         $Vendor->vendorName = $request->post('vendorName');
         $Vendor->contactPerson = $request->post('contactPerson');
         $Vendor->email = $request->post('email');
+        $Vendor->contactNo = $request->post('contactNo');
         $Vendor->address = $request->post('address');
         $Vendor->category = $request->post('category');
         $Vendor->packageID = $request->post('packageID');
@@ -65,7 +66,7 @@ class VendorController extends Controller
        
         $Vendor->save();
 
-        $images = $request->file('images');
+        $images = $request->file('image');
         foreach($images as $image){
             $Image = new Image();
             $Image->productID=$product->productID;
@@ -95,7 +96,7 @@ class VendorController extends Controller
             'vendorName' => 'required',
             'contactPerson' => 'required',
             'email' => 'required',
-            'mobileNo' => 'required',
+            'contactNo' => 'required',
             'address' => 'required',
             'category' => 'required',
             'packageID' => 'required',
@@ -116,6 +117,7 @@ class VendorController extends Controller
             $Vendor->vendorName = $request->post('vendorName');
             $Vendor->contactPerson = $request->post('contactPerson');
             $Vendor->email = $request->post('email');
+            $Vendor->contactNo = $request->post('contactNo');
             $Vendor->address = $request->post('address');
             $Vendor->category = $request->post('category');
             $Vendor->packageID = $request->post('packageID');
