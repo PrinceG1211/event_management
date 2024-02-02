@@ -2,6 +2,19 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AreaController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\EmployeeEventController;
+use App\Http\Controllers\EventBookingController;
+use App\Http\Controllers\EventDetailController;
+use App\Http\Controllers\HotelController;
+use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\PackageDetailController;
+use App\Http\Controllers\VendorController;
+use App\Http\Controllers\VenueController;
 
 /*
 |--------------------------------------------------------------------------
