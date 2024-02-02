@@ -18,7 +18,8 @@ class City extends Model
         'addedOn',
         'updatedOn',
     ];
-
+    const CREATED_AT = 'addedOn';
+    const UPDATED_AT = 'updatedOn';
     protected static function boot()
     {
         parent::boot();
