@@ -12,7 +12,7 @@ class PackageDetail extends Model
     protected $primaryKey='packageID';
     protected $fillable=[
         'packageName',
-        'packageDiscription',
+        'packageDescription',
         'price',    
         'isActive'
     ];
