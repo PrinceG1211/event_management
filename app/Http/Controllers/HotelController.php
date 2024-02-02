@@ -41,8 +41,8 @@ class HotelController extends Controller
             'address' => 'required',
             'city' => 'required',
             'area' => 'required',
-            'image' => 'required',
-            'coverImage' => 'required|image|max:2048',
+            'image' => 'required|image|max:2048',
+            
             
         ]);
 
@@ -62,8 +62,7 @@ class HotelController extends Controller
         $Hotel->area = $request->post('category');
       
         $Hotel->image = $request->post('image');
-        $coverImage = $request->file('coverImage');
-        $Hotel->coverImage = $this->uploadImage($coverImage, "Hotel");
+     
         $Hotel->save();
         $images = $request->file('images');
         foreach($images as $image){
@@ -99,8 +98,8 @@ class HotelController extends Controller
             'address' => 'required',
             'city' => 'required',
             'area' => 'required',
-            'image' => 'required',
-            'coverImage' => 'required|image|max:2048',
+            'image' => 'required|image|max:2048',
+            
         ]);
 
         if ($validator->fails()) {
@@ -121,10 +120,9 @@ class HotelController extends Controller
         $Hotel->area = $request->post('category');
       
         $Hotel->image = $request->post('image');
-        $coverImage = $request->file('coverImage');
-        $Hotel->coverImage = $this->uploadImage($coverImage, "Hotel");
-            if($coverImage!=""){
-                $product->coverImage = $this->uploadImage($coverImage, "product");
+       
+            if($Image!=""){
+                $product->coverImage = $this->uploadImage($Image, "product");
             }
             
             $updated = $Hotel->save();
