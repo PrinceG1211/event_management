@@ -35,7 +35,7 @@ class CityController extends Controller
             return $this->sendResponse('failure', 'Validation Error.', $validator->errors());
         }
 
-        $City = new Auth();
+        $City = new city();
         $City->cityID = $request->post('cityID');
         $City->cityName = $request->post('cityName');
        
