@@ -124,6 +124,15 @@ Route::prefix('Vendor')->group( function () {
     Route::post('delete',[VendorController::class,'delete']);
 });
 
+Route::prefix('VendorCategory')->group( function () {
+    Route::get('/',[VendorCategoryController::class,'index']);
+    Route::get('/{id}',[VendorCategoryController::class,'show']);
+    Route::get('images/{id}',[VendorCategoryController::class,'showImage']);
+    Route::post('add',[VendorCategoryController::class,'store']);
+    Route::post('update',[VVendorCategoryController::class,'update']);
+    Route::post('delete',[VendorCategoryController::class,'delete']);
+});
+
 Route::prefix('Venue')->group( function () {
     Route::get('/',[VenueController::class,'index']);
     Route::get('/{id}',[VenueController::class,'show']);
