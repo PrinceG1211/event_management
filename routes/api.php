@@ -14,6 +14,7 @@ use App\Http\Controllers\HotelController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\PackageDetailController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\VendorCategoryController;
 use App\Http\Controllers\VenueController;
 
 /*
