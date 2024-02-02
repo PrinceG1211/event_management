@@ -43,7 +43,7 @@ class VendorController extends Controller
             'packageID' => 'required',
             'price' => 'required',
             'image' => 'required',
-            'coverImage' => 'required|image|max:2048',
+           
             
         ]);
 
@@ -57,14 +57,12 @@ class VendorController extends Controller
         $Vendor->vendorName = $request->post('vendorName');
         $Vendor->contactPerson = $request->post('contactPerson');
         $Vendor->email = $request->post('email');
-        $Vendor->mobileNo = $request->post('mobileNo');
         $Vendor->address = $request->post('address');
         $Vendor->category = $request->post('category');
         $Vendor->packageID = $request->post('packageID');
         $Vendor->price = $request->post('price');
         $Vendor->image = $request->post('image');
-        $coverImage = $request->file('coverImage');
-        $Vendor->coverImage = $this->uploadImage($coverImage, "Vendor");
+       
         $Vendor->save();
 
         $images = $request->file('images');
@@ -103,7 +101,7 @@ class VendorController extends Controller
             'packageID' => 'required',
             'price' => 'required',
             'image' => 'required',
-            'coverImage' => 'required|image|max:2048',
+           
         ]);
 
         if ($validator->fails()) {
@@ -118,16 +116,12 @@ class VendorController extends Controller
             $Vendor->vendorName = $request->post('vendorName');
             $Vendor->contactPerson = $request->post('contactPerson');
             $Vendor->email = $request->post('email');
-            $Vendor->mobileNo = $request->post('mobileNo');
             $Vendor->address = $request->post('address');
             $Vendor->category = $request->post('category');
             $Vendor->packageID = $request->post('packageID');
             $Vendor->price = $request->post('price');
             $Vendor->image = $request->post('image');
-            $coverImage = $request->file('coverImage');
-            if($coverImage!=""){
-                $product->coverImage = $this->uploadImage($coverImage, "product");
-            }
+           
             
             $updated = $Vendor->save();
             if ($updated == 1) {
