@@ -3,25 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller as Controller;
-use App\Models\EmployeeDetail;
+use App\Models\EventDetail;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Validator;
 
-class EmployeeDetailController extends Controller
+class EventDetailController extends Controller
 {
 
     public function index(): JsonResponse
     {
-        $EmployeeDetail = EmployeeDetail::where('isActive', 1)->with('Event','Vendor')->get()->each(function ($event,$Vendor) {
-         $EmployeeDetail->EventID = $EmployeeDetail->EmployeeDetail->EventID;  
-         $EmployeeDetail->VendorID = $EmployeeDetail->EmployeeDetail->VendorID;
+        $EventDetail =  EventDetail::where('isActive', 1)->with('Event','Vendor')->get()->each(function ($event,$Vendor) {
+         $EventDetail->EventID = $EventDetail-> EventDetail->EventID;  
+         $EventDetail->VendorID = $EventDetail-> EventDetail->VendorID;
        });
 
-        if ($EmployeeEvent != null) {
-            return $this->sendResponse('success', $EmployeeDetail, 'EmployeeDetail Found.');
+        if ($EventDetail != null) {
+            return $this->sendResponse('success', $EventDetail, ' EventDetail Found.');
         } else {
-            return $this->sendResponse('failure', $EmployeeDetail, 'No EmployeeDetail Found.');
+            return $this->sendResponse('failure', $EventDetail, 'No  EventDetail Found.');
         }
 
     }
@@ -43,28 +43,28 @@ class EmployeeDetailController extends Controller
             return $this->sendResponse('failure', 'Validation Error.', $validator->errors());
         }
 
-        $EmployeeDetail = new EmployeeDetail();
-        $EmployeeDetail-> EventID = $request->post('EventID');
-        $EmployeeDetail->VendorID = $request->post('VendorID');
-        $EmployeeDetail->date = $request->post('date');
-        $EmployeeDetail->cost = $request->post('cost');
-        $EmployeeDetail->details = $request->post('details');
-        $EmployeeDetail->status = $request->post('status');
+        $EventDetail = new EventDetail();
+        $EventDetail-> EventID = $request->post('EventID');
+        $EventDetail->VendorID = $request->post('VendorID');
+        $EventDetail->date = $request->post('date');
+        $EventDetail->cost = $request->post('cost');
+        $EventDetail->details = $request->post('details');
+        $EventDetail->status = $request->post('status');
        
-        $product->save();
+        $EventDetail->save();
 
-        return $this->sendResponse('success', $EmployeeDetail->EventID, 'EmployeeDetail created successfully.');
+        return $this->sendResponse('success', $EventDetail->EventID, 'EventDetail created successfully.');
     }
 
     public function show($id): JsonResponse
     {
-        $EmployeeDetail = EmployeeDetail::where('isActive', 1)->where('EventID', $id)->first();
+        $EventDetail = EventDetail::where('isActive', 1)->where('EventID', $id)->first();
 
-        if (is_null($EmployeeDetail)) {
-            return $this->sendResponse('failure', $EmployeeDetail, 'No EmployeeDetail Found.');
+        if (is_null($EventDetail)) {
+            return $this->sendResponse('failure', $EventDetail, 'No EventDetail Found.');
         }
 
-        return $this->sendResponse('success', $EmployeeDetail, 'EmployeeDetail Found.');
+        return $this->sendResponse('success', $EventDetail, 'EventDetail Found.');
     }
 
     public function update(Request $request): JsonResponse
@@ -84,26 +84,26 @@ class EmployeeDetailController extends Controller
             return $this->sendResponse('failure', 'Validation Error.', $validator->errors());
         }
 
-        $id = $request->post('EmployeeDetail');
-        $EmployeeDetail = EmployeeDetail::find($id);
-        if ($EmployeeDetail != null) {
-            $EmployeeDetail = new EmployeeDetail();
-            $EmployeeDetail-> EventID = $request->post('EventID');
-            $EmployeeDetail->VendorID = $request->post('VendorID');
-            $EmployeeDetail->date = $request->post('date');
-            $EmployeeDetail->cost = $request->post('cost');
-            $EmployeeDetail->details = $request->post('details');
-            $EmployeeDetail->status = $request->post('status');
+        $id = $request->post('EventDetail');
+        $EventDetail = EventDetail::find($id);
+        if ($EventDetail != null) {
+            $EventDetail = new EventDetail();
+            $EventDetail-> EventID = $request->post('EventID');
+            $EventDetail->VendorID = $request->post('VendorID');
+            $EventDetail->date = $request->post('date');
+            $EventDetail->cost = $request->post('cost');
+            $EventDetail->details = $request->post('details');
+            $EventDetail->status = $request->post('status');
            
-            $updated = $EmployeeDetail->save();
+            $updated = $EventDetail->save();
             if ($updated == 1) {
-                return $this->sendResponse('success', $updated, 'EmployeeDetail updated successfully.');
+                return $this->sendResponse('success', $updated, 'EventDetail updated successfully.');
             } else {
-                return $this->sendResponse('failure', $updated, 'EmployeeDetail Not updated.');
+                return $this->sendResponse('failure', $updated, 'EventDetail Not updated.');
             }
 
         } else {
-            return $this->sendResponse('failure', $EmployeeDetail, 'EmployeeDetail Not Found.');
+            return $this->sendResponse('failure', $EventDetail, 'EventDetail Not Found.');
         }
 
     }
@@ -111,17 +111,17 @@ class EmployeeDetailController extends Controller
     public function delete(Request $request): JsonResponse
     {
         $id = $request->post('EventID');
-        $EmployeeDetail = EmployeeDetail::find($id);
-        if ($EmployeeDetail != null) {
-            $EmployeeDetail->isActive = 0;
-            $updated = $EmployeeDetail->save();
+        $EventDetail = EventDetail::find($id);
+        if ($EventDetail != null) {
+            $EventDetail->isActive = 0;
+            $updated = $EventDetail->save();
             if ($updated == 1) {
-                return $this->sendResponse('success', $updated, 'EmployeeDetail Deleted successfully.');
+                return $this->sendResponse('success', $updated, 'EventDetail Deleted successfully.');
             } else {
-                return $this->sendResponse('failure', $updated, 'EmployeeDetail Not updated.');
+                return $this->sendResponse('failure', $updated, 'EventDetail Not updated.');
             }
         } else {
-            return $this->sendResponse('failure', $EmployeeDetail, 'EmployeeDetail Not Found.');
+            return $this->sendResponse('failure', $EventDetail, 'EventDetail Not Found.');
         }
     }
 }
