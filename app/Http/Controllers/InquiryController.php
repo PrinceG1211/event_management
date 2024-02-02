@@ -45,7 +45,7 @@ class InquiryController extends Controller
 
         $Inquiry = new Inquiry();
         $Inquiry->inquiryID = $request->post('inquiryID');
-        $PackInquiryageDetail->name = $request->post('name');
+        $Inquiry->name = $request->post('name');
         $Inquiry->email = $request->post('email');
         $Inquiry->mobileNo = $request->post('mobileNo');
         $Inquiry->subject = $request->post('subject');
