@@ -13,10 +13,10 @@ class EmployeeEventController extends Controller
 
     public function index(): JsonResponse
     {
-        $EmployeeEvent = EmployeeEvent::where('isActive', 1)->with('EmployeeEvent','Employee','Event')->get()->each(function ($EmployeeEvent,$employee,$event) {
-         $EmployeeEvent->EmployeeEventID = $EmployeeEvent->Employee->EmployeeEventID;  
-         $EmployeeEvent->EmployeeID = $EmployeeEvent->Employee->EmployeeID;
-         $EmployeeEvent->EventID = $EmployeeEvent->Employee->EventID; // Add EmployeeEventID
+        $EmployeeEvent = EmployeeEvent::where('isActive', 1)->with('Employee','EventBooking')->get()->each(function ($EmployeeEvent) {
+         
+         $EmployeeEvent->employeeName = $EmployeeEvent->Employee->name;
+         $EmployeeEvent->bookingType = $EmployeeEvent->EventBooking->bookingType; // Add EmployeeEventID
        });
 
         if ($EmployeeEvent != null) {
