@@ -13,10 +13,11 @@ class AreaController extends Controller
 
     public function index(): JsonResponse
     {
-        $Area = Area::where('isActive', 1)->with('Area','City')->get()->each(function ($Area,$City) {
-            $Area->cityID = $Area->City->cityID; 
+        $Area = Area::where('isActive', 1)->with('City')->get()->each(function ($Area) {
+            $Area->cityName = $Area->City->cityName;
+            $Area->setHidden(['City']);
+            
         });
-        $Area = Area::where('isActive', 1)->get();
         if ($Area != null) {
             return $this->sendResponse('success', $Area, ' Area Found.');
         } else {

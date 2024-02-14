@@ -16,9 +16,9 @@ class CustomerController extends Controller
        
         $Customer = Customer::where('isActive', 1)->get();
         if ($Customer != null) {
-            return $this->sendResponse('success', $Auth, 'Customer Found.');
+            return $this->sendResponse('success', $Customer, 'Customer Found.');
         } else {
-            return $this->sendResponse('failure', $Auth, 'No Customer Found.');
+            return $this->sendResponse('failure', $Customer, 'No Customer Found.');
         }
 
     }
