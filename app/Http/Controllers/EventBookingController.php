@@ -15,11 +15,10 @@ class EventBookingController extends Controller
     {
         $EventBooking = EventBooking::where('isActive', 1)->with('PackageDetail','Customer')->get()->each(function ($EventBooking) {  
        
-            $EventBooking->customername = $EventBooking->Customer->name;  
-            $EventBooking->packagename = $EventBooking->PackageDetail->packageName;  
-            $EventBooking->setHidden(['Customer,PackageDetail']);
+            $EventBooking->customerName = $EventBooking->Customer->name;  
+            $EventBooking->packageName = $EventBooking->PackageDetail->packageName;  
+            $EventBooking->setHidden(['Customer','PackageDetail']);
          });
-        $EventBooking = EventBooking::where('isActive', 1)->get();
         if ($EventBooking != null) {
             return $this->sendResponse('success', $EventBooking, 'EventBooking Found.');
         } else {
@@ -75,7 +74,7 @@ class EventBookingController extends Controller
 
     public function show($id): JsonResponse
     {
-        $EventBooking = Vendor::where('isActive', 1)->where('bookingID', $id)->first();
+        $EventBooking = EventBooking::where('isActive', 1)->where('bookingID', $id)->first();
 
         if (is_null($EventBooking)) {
             return $this->sendResponse('failure', $EventBooking, 'No EventBooking Found.');

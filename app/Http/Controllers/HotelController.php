@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller as Controller;
-use App\Models\Vendor;
+use App\Models\Hotel;
 use App\Models\Image;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,11 +14,11 @@ class HotelController extends Controller
 
     public function index(): JsonResponse
     {
-        $Hotel = Hotel::where('isActive', 1)->with('Hotel','Package',)->get()->each(function ($Hotel,$Package) {
-            $Hotel->hotelID = $Hotel->Hotel->hotelID;  
-            $Hotel->Package = $Hotel->Package->packageID;  
+        $Hotel = Hotel::where('isActive', 1)->with('PackageDetail')->get()->each(function ($Hotel) {
+            $Hotel->packageName = $Hotel->PackageDetail->packageName;  
+            $Hotel->setHidden(['PackageDetail']);
          });
-        $Hotel = Hotel::where('isActive', 1)->get();
+        
         if ($Hotel != null) {
             return $this->sendResponse('success', $Hotel, 'Hotel Found.');
         } else {
@@ -42,7 +42,6 @@ class HotelController extends Controller
             'city' => 'required',
             'area' => 'required',
             'image' => 'required',
-            'coverImage' => 'required|image|max:2048',
             
         ]);
 
@@ -58,14 +57,11 @@ class HotelController extends Controller
         $Hotel->email = $request->post('email');
         $Hotel->mobileNo = $request->post('mobileNo');
         $Hotel->address = $request->post('address');
-        $Hotel->city = $request->post('category');
-        $Hotel->area = $request->post('category');
-      
-        $Hotel->image = $request->post('image');
-        $coverImage = $request->file('coverImage');
-        $Hotel->coverImage = $this->uploadImage($coverImage, "Hotel");
+        $Hotel->city = $request->post('city');
+        $Hotel->area = $request->post('area');
+        $Hotel->image = $request->post('image');  
         $Hotel->save();
-        $images = $request->file('images');
+        $images = $request->file('image');
         foreach($images as $image){
             $Image = new Image();
             $Image->productID=$product->productID;
@@ -80,7 +76,7 @@ class HotelController extends Controller
     {
         $Hotel = Hotel::where('isActive', 1)->where('hotelID', $id)->first();
 
-        if (is_null($Vendor)) {
+        if (is_null($Hotel)) {
             return $this->sendResponse('failure', $Hotel, 'No Hotel Found.');
         }
 
@@ -100,7 +96,7 @@ class HotelController extends Controller
             'city' => 'required',
             'area' => 'required',
             'image' => 'required',
-            'coverImage' => 'required|image|max:2048',
+            
         ]);
 
         if ($validator->fails()) {
@@ -108,8 +104,8 @@ class HotelController extends Controller
         }
 
         $id = $request->post('employeeID');
-        $Vendor = Vendor::find($id);
-        if ($Vendor != null) {
+        $Hotel = Hotel::find($id);
+        if ($Hotel != null) {
             $Hotel->hotelID = $request->post('hotelID');
         $Hotel->packageID = $request->post('packageID');
         $Hotel->hotelname = $request->post('hotelname');
@@ -117,17 +113,11 @@ class HotelController extends Controller
         $Hotel->email = $request->post('email');
         $Hotel->mobileNo = $request->post('mobileNo');
         $Hotel->address = $request->post('address');
-        $Hotel->city = $request->post('category');
-        $Hotel->area = $request->post('category');
-      
+        $Hotel->city = $request->post('city');
+        $Hotel->area = $request->post('area');  
         $Hotel->image = $request->post('image');
-        $coverImage = $request->file('coverImage');
-        $Hotel->coverImage = $this->uploadImage($coverImage, "Hotel");
-            if($coverImage!=""){
-                $product->coverImage = $this->uploadImage($coverImage, "product");
-            }
-            
-            $updated = $Hotel->save();
+
+         $updated = $Hotel->save();
             if ($updated == 1) {
                 return $this->sendResponse('success', $updated, 'Hotel updated successfully.');
             } else {
