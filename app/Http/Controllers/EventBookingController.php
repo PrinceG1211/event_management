@@ -13,13 +13,13 @@ class EventBookingController extends Controller
 
     public function index(): JsonResponse
     {
-        $EventBooking = EventBooking::where('isActive', 1)->with('EventBooking','Event','Booking')->get()->each(function ($EventBooking,$Package,$Booking) {
-            $EventBooking->bookingID = $EventBooking->Event->bookingID;  
-            $EventBooking->eventID = $EventBooking->Event->eventID;  
-            $EventBooking->customerID = $EventBooking->Event->customerID;  
-            $EventBooking->packageID = $EventBooking->Event->packageID;  
+        $EventBooking = EventBooking::where('isActive', 1)->with('PackageDetail','Customer')->get()->each(function ($EventBooking) {  
+       
+            $EventBooking->customername = $EventBooking->Customer->name;  
+            $EventBooking->packagename = $EventBooking->PackageDetail->packageName;  
+            $EventBooking->setHidden(['Customer,PackageDetail']);
          });
-        $EventBooking = Vendor::where('isActive', 1)->get();
+        $EventBooking = EventBooking::where('isActive', 1)->get();
         if ($EventBooking != null) {
             return $this->sendResponse('success', $EventBooking, 'EventBooking Found.');
         } else {

@@ -49,11 +49,9 @@ class EventBooking extends Model
          return $this->belongsTo(Customer::class, 'customerID');
 
      }
-
-
-     public function Package()
+     public function PackageDetail()
      {
-         return $this->belongsTo(Package::class, 'packageID');
+         return $this->belongsTo(PackageDetail::class, 'packageID');
 
      }
 }

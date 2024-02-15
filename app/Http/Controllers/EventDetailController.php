@@ -13,10 +13,12 @@ class EventDetailController extends Controller
 
     public function index(): JsonResponse
     {
-        $EventDetail =  EventDetail::where('isActive', 1)->with('Event','Vendor')->get()->each(function ($event,$Vendor) {
-         $EventDetail->EventID = $EventDetail-> EventDetail->EventID;  
-         $EventDetail->VendorID = $EventDetail-> EventDetail->VendorID;
-       });
+        $EventDetail =  EventDetail::where('isActive', 1)->with('Vendor')->get()->each(function ($EventDetail) {
+         $EventDetail->vendorName= $EventDetail->Vendor->vendorName;
+         $EventDetail->businessName= $EventDetail->Vendor->bname;
+         $EventDetail->setHidden(['Vendor']);
+        
+       });  
 
         if ($EventDetail != null) {
             return $this->sendResponse('success', $EventDetail, ' EventDetail Found.');
