@@ -29,7 +29,7 @@ class InquiryController extends Controller
 
         $validator = Validator::make($input, [
             
-            'inquiryID' => 'required',
+            
             'name' => 'required',
             'email' => 'required',
             'mobileNo' => 'required',
@@ -44,7 +44,7 @@ class InquiryController extends Controller
         }
 
         $Inquiry = new Inquiry();
-        $Inquiry->inquiryID = $request->post('inquiryID');
+       
         $Inquiry->name = $request->post('name');
         $Inquiry->email = $request->post('email');
         $Inquiry->mobileNo = $request->post('mobileNo');
@@ -92,7 +92,7 @@ class InquiryController extends Controller
         $Inquiry = Inquiry::find($id);
         if ($Inquiry != null) {
             $Inquiry->inquiryID = $request->post('inquiryID');
-            $PackInquiryageDetail->name = $request->post('name');
+            $Inquiry->name = $request->post('name');
             $Inquiry->email = $request->post('email');
             $Inquiry->mobileNo = $request->post('mobileNo');
             $Inquiry->subject = $request->post('subject');

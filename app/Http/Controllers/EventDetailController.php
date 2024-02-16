@@ -46,8 +46,8 @@ class EventDetailController extends Controller
         }
 
         $EventDetail = new EventDetail();
-        $EventDetail-> EventID = $request->post('EventID');
-        $EventDetail->VendorID = $request->post('VendorID');
+        $EventDetail-> EventID = $request->post('eventID');
+        $EventDetail->VendorID = $request->post('vendorID');
         $EventDetail->date = $request->post('date');
         $EventDetail->cost = $request->post('cost');
         $EventDetail->details = $request->post('details');
@@ -90,8 +90,8 @@ class EventDetailController extends Controller
         $EventDetail = EventDetail::find($id);
         if ($EventDetail != null) {
             $EventDetail = new EventDetail();
-            $EventDetail-> EventID = $request->post('EventID');
-            $EventDetail->VendorID = $request->post('VendorID');
+            $EventDetail-> EventID   = $request->post('eventID');
+            $EventDetail->VendorID = $request->post('vendorID');
             $EventDetail->date = $request->post('date');
             $EventDetail->cost = $request->post('cost');
             $EventDetail->details = $request->post('details');
@@ -112,7 +112,7 @@ class EventDetailController extends Controller
 
     public function delete(Request $request): JsonResponse
     {
-        $id = $request->post('EventID');
+        $id = $request->post('eventDetailID');
         $EventDetail = EventDetail::find($id);
         if ($EventDetail != null) {
             $EventDetail->isActive = 0;
