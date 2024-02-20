@@ -13,8 +13,8 @@ class VenueController extends Controller
 
     public function index(): JsonResponse
     {
-        $Venue = Venue::where('isActive', 1)->with('Venue','Package',)->get()->each(function ($Venue,$Package) {
-            $Venue->Package = $Venue->Package->packageID;  
+        $Venue = Venue::where('isActive', 1)->with('PackageDetail')->get()->each(function ($Venue) {
+           
           });
         $Venue = Venue::where('isActive', 1)->get();
         if ($Venue != null) {
@@ -50,7 +50,7 @@ class VenueController extends Controller
         }
 
         $Venue = new Venue();
-        $Venue->venueID = $request->post('vendorID');
+        $Venue->venueID = $request->post('venueID');
         $Venue->venueName = $request->post('bname');
         $Venue->capacity = $request->post('vendorName');
         $Venue->contactPerson = $request->post('contactPerson');
@@ -64,12 +64,12 @@ class VenueController extends Controller
         $Venue->packageID = $request->post('packageID');
         $Venue->save();
 
-        return $this->sendResponse('success', $Venue->vendorID, 'Venue Added successfully.');
+        return $this->sendResponse('success', $Venue->venueID, 'Venue Added successfully.');
     }
 
     public function show($id): JsonResponse
     {
-        $Venue = Venue::where('isActive', 1)->where('vendorID', $id)->first();
+        $Venue = Venue::where('isActive', 1)->where('venueID', $id)->first();
 
         if (is_null($Venue)) {
             return $this->sendResponse('failure', $Venue, 'No Venue Found.');
@@ -99,10 +99,10 @@ class VenueController extends Controller
             return $this->sendResponse('failure', 'Validation Error.', $validator->errors());
         }
 
-        $id = $request->post('employeeID');
+        $id = $request->post('venueID');
         $Venue = Venue::find($id);
         if ($Venue != null) {
-            $Venue->venueID = $request->post('vendorID');
+            $Venue->venueID = $request->post('venueID');
             $Venue->venueName = $request->post('bname');
             $Venue->capacity = $request->post('vendorName');
             $Venue->contactPerson = $request->post('contactPerson');
@@ -128,7 +128,7 @@ class VenueController extends Controller
 
     public function delete(Request $request): JsonResponse
     {
-        $id = $request->post('vendorID');
+        $id = $request->post('venueID');
         $Venue = Venue::find($id);
         if ($Venue != null) {
             $Venue->isActive = 0;

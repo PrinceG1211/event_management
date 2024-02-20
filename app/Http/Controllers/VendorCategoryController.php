@@ -13,7 +13,7 @@ class VendorCategoryController extends Controller
 
     public function index(): JsonResponse
     {
-        $VendorCategory = VendorCategory::where('isActive', 1)->with('VendorCategory','Vendor','Category')->get()->each(function ($VendorCategory,$Vendor,$Category) {
+        $VendorCategory = VendorCategory::where('isActive', 1)->with('Vendor','Category')->get()->each(function ($VendorCategory) {
             $VendorCategory->parentID = $VendorCategory->Vendor->parentID; 
         });
         $VendorCategory = VendorCategory::where('isActive', 1)->get();

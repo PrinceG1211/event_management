@@ -29,7 +29,7 @@ class PackageDetailController extends Controller
 
         $validator = Validator::make($input, [
             
-            'packageID' => 'required',
+        
             'packageName' => 'required',
             'packageDescription' => 'required',
             'price' => 'required',
@@ -41,7 +41,7 @@ class PackageDetailController extends Controller
         }
 
         $PackageDetail = new PackageDetail();
-        $PackageDetail->packageID = $request->post('packageID');
+        
         $PackageDetail->packageName = $request->post('packageName');
         $PackageDetail->packageDescription = $request->post('packageDescription');
         $PackageDetail->price = $request->post('price');

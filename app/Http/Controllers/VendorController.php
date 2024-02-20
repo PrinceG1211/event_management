@@ -14,11 +14,10 @@ class VendorController extends Controller
 
     public function index(): JsonResponse
     {
-        $Vendor = Vendor::where('isActive', 1)->with('Vendor','Package',)->get()->each(function ($Vendor,$Package) {
-            $Vendor->vendorID = $Vendor->Vendor->vendorID;
-            $Vendor->packageId = $Vendor->Package->packageID;  
+        $Vendor = Vendor::where('isActive', 1)->with('PackageDetail',)->get()->each(function ($Vendor) {
+            $Vendor->packageName = $Vendor->PackageDetail->packageName;  
+            $Vendor->setHidden(['PackageDetail']); 
          });
-        $Vendor = Vendor::where('isActive', 1)->get();
         if ($Vendor != null) {
             return $this->sendResponse('success', $Vendor, 'Vendor Found.');
         } else {
@@ -32,7 +31,7 @@ class VendorController extends Controller
         $input = $request->all();
 
         $validator = Validator::make($input, [
-            
+      
             'bname' => 'required',
             'vendorName' => 'required',
             'contactPerson' => 'required',
@@ -43,8 +42,6 @@ class VendorController extends Controller
             'packageID' => 'required',
             'price' => 'required',
             'image' => 'required',
-           
-            
         ]);
 
         if ($validator->fails()) {
@@ -52,7 +49,7 @@ class VendorController extends Controller
         }
 
         $Vendor = new Vendor();
-        $Vendor->vendorID = $request->post('vendorID');
+        
         $Vendor->bname = $request->post('bname');
         $Vendor->vendorName = $request->post('vendorName');
         $Vendor->contactPerson = $request->post('contactPerson');
@@ -62,18 +59,12 @@ class VendorController extends Controller
         $Vendor->category = $request->post('category');
         $Vendor->packageID = $request->post('packageID');
         $Vendor->price = $request->post('price');
-        $Vendor->image = $request->post('image');
+        $image = $request->file('image');
+        $Vendor->image = $this->uploadImage($image, "Vendor");
        
         $Vendor->save();
 
-        $images = $request->file('image');
-        foreach($images as $image){
-            $Image = new Image();
-            $Image->productID=$product->productID;
-            $Image->path = $this->uploadImage($image, "product");
-            $Image->save();
-        }
-
+        
         return $this->sendResponse('success', $Vendor->vendorID, 'Vendor Added successfully.');
     }
 
@@ -92,6 +83,8 @@ class VendorController extends Controller
         $input = $request->all();
 
         $validator = Validator::make($input, [
+
+            'vendorID' => 'required',
             'bname' => 'required',
             'vendorName' => 'required',
             'contactPerson' => 'required',
@@ -123,8 +116,7 @@ class VendorController extends Controller
             $Vendor->packageID = $request->post('packageID');
             $Vendor->price = $request->post('price');
             $Vendor->image = $request->post('image');
-           
-            
+
             $updated = $Vendor->save();
             if ($updated == 1) {
                 return $this->sendResponse('success', $updated, 'Vendor updated successfully.');
@@ -158,7 +150,7 @@ class VendorController extends Controller
     public function deleteImages(Request $request): JsonResponse
     {
         $id = $request->post('imageID');
-        $Image = ProductImage::find($id);
+        $Image = VendorImage::find($id);
         if ($Image != null) {
             $deleted = $this->deleteImage($Image->image);
             if ($deleted) {

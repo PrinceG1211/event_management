@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Str;
 
 class Controller extends BaseController
 {
@@ -24,7 +25,7 @@ class Controller extends BaseController
     public function uploadImage($image, $path)
     {
         $uploaded_path = $image->storeAs
-            ($path, Str::random(40) . '.' . $image->getClientOriginalExtension(), ['disk' => 'public_uploads']);
+            ("uploads/".$path, Str::random(40) . '.' . $image->getClientOriginalExtension(), ['disk' => 'public_uploads']);
         return $uploaded_path;
     }
 

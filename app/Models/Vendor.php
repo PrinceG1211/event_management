@@ -42,10 +42,9 @@ class Vendor extends Model
         });
     }
 
-    
-    public function Package()
+    public function PackageDetail()
     {
-        return $this->belongsTo(Package::class, 'packageID');
+        return $this->belongsTo(PackageDetail::class, 'packageID');
 
     }
 }

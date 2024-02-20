@@ -29,7 +29,6 @@ class InquiryController extends Controller
 
         $validator = Validator::make($input, [
             
-            
             'name' => 'required',
             'email' => 'required',
             'mobileNo' => 'required',
