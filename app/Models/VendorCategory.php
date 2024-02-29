@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class VendorCategory extends Model
 {
-    protected $table = 'auth_tb';
+    protected $table = 'vendor_category_tb';
     protected $primaryKey='categoryID';
     protected $fillable=[
         'categoryName',
@@ -34,7 +34,7 @@ class VendorCategory extends Model
         });
     }
 
- 
+   
 
 
 }

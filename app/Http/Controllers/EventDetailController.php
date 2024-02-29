@@ -13,7 +13,7 @@ class EventDetailController extends Controller
 
     public function index(): JsonResponse
     {
-        $EventDetail =  EventDetail::where('isActive', 1)->with('Ven cdor')->get()->each(function ($EventDetail) {
+        $EventDetail =  EventDetail::where('isActive', 1)->with('Vendor')->get()->each(function ($EventDetail) {
          $EventDetail->vendorName= $EventDetail->Vendor->vendorName;
          $EventDetail->businessName= $EventDetail->Vendor->bname;
          $EventDetail->setHidden(['Vendor']);

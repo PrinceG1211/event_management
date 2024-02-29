@@ -44,7 +44,7 @@ class Vendor extends Model
 
     public function PackageDetail()
     {
-        return $this->belongsTo(PackageDetail::class, 'packageId');
+        return $this->belongsTo(PackageDetail::class, 'packageID');
 
     }
 }

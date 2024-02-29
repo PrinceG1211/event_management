@@ -13,10 +13,33 @@ class VendorCategoryController extends Controller
 
     public function index(): JsonResponse
     {
-        $VendorCategory = VendorCategory::where('isActive', 1)->with('Vendor','Category')->get()->each(function ($VendorCategory) {
-            $VendorCategory->parentID = $VendorCategory->Vendor->parentID; 
-        });
-        $VendorCategory = VendorCategory::where('isActive', 1)->get();
+    
+     
+        $Category = VendorCategory::where('isActive', 1)->get();
+        $VendorCategory = array();
+        foreach($Category as $cat){
+            $cat['parentName'] = "";
+            if($cat['parentID'] != "0"){
+                $parentCat = VendorCategory::where('isActive', 1)->where('categoryID', $cat['parentID'])->first();
+                if($parentCat != null){
+                    $cat['parentName'] = $parentCat['categoryName'];
+                }
+                
+            }
+            array_push($VendorCategory,$cat);
+        }
+        if ($VendorCategory != null) {
+            return $this->sendResponse('success', $VendorCategory, 'Vendor Category Found.');
+        } else {
+            return $this->sendResponse('failure', $VendorCategory, 'No Vendor Category Found.');
+        }
+
+    }
+
+    
+    public function parentCategory(): JsonResponse
+    {
+         $VendorCategory = VendorCategory::where('isActive', 1)->where('parentID', 0)->get();
         if ($VendorCategory != null) {
             return $this->sendResponse('success', $VendorCategory, 'Vendor Category Found.');
         } else {
@@ -52,7 +75,7 @@ class VendorCategoryController extends Controller
 
     public function show($id): JsonResponse
     {
-        $VendorCategory = Employee::where('isActive', 1)->where('categoryID', $id)->first();
+        $VendorCategory = VendorCategory::where('isActive', 1)->where('categoryID', $id)->first();
 
         if (is_null($VendorCategory)) {
             return $this->sendResponse('failure', $VendorCategory, 'No Vendor Category Found.');

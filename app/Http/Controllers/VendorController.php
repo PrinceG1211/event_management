@@ -14,7 +14,7 @@ class VendorController extends Controller
 
     public function index(): JsonResponse
     {
-        $Vendor = Vendor::where('isActive', 1)->with('PackageDetail',)->get()->each(function ($Vendor) {
+        $Vendor = Vendor::where('isActive', 1)->with('PackageDetail')->get()->each(function ($Vendor) {
             $Vendor->packageName = $Vendor->PackageDetail->packageName;  
             $Vendor->setHidden(['PackageDetail']); 
          });
@@ -94,7 +94,7 @@ class VendorController extends Controller
             'category' => 'required',
             'packageID' => 'required',
             'price' => 'required',
-            'image' => 'required',
+            
            
         ]);
 
@@ -115,7 +115,11 @@ class VendorController extends Controller
             $Vendor->category = $request->post('category');
             $Vendor->packageID = $request->post('packageID');
             $Vendor->price = $request->post('price');
-            $Vendor->image = $request->post('image');
+            $image= $request->file('image');
+            if($image != null){
+                $Vendor->image = $this->uploadImage($image, "Vendor");
+            }
+            
 
             $updated = $Vendor->save();
             if ($updated == 1) {

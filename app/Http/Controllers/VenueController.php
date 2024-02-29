@@ -117,7 +117,9 @@ class VenueController extends Controller
             $Venue->mobileNo = $request->post('mobileNo');
             $Venue->address = $request->post('address');
             $image= $request->file('image');
-            $Venue->image= $this->uploadimage($image, "Venue");
+            if($image != null){
+                $Venue->image = $this->uploadImage($image, "Venue");
+            }
             $Venue->price = $request->post('price');
             $Venue->city = $request->post('city');
             $Venue->area = $request->post('area');
