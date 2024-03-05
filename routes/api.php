@@ -120,6 +120,7 @@ Route::prefix('Vendor')->group( function () {
     Route::get('/',[VendorController::class,'index']);
     Route::get('/{id}',[VendorController::class,'show']);
     Route::get('images/{id}',[VendorController::class,'showImage']);
+    Route::post('category',[VendorController::class,'category']);
     Route::post('add',[VendorController::class,'store']);
     Route::post('update',[VendorController::class,'update']);
     Route::post('delete',[VendorController::class,'delete']);
@@ -128,6 +129,7 @@ Route::prefix('Vendor')->group( function () {
 Route::prefix('VendorCategory')->group( function () {
     Route::get('/',[VendorCategoryController::class,'index']);
     Route::get('/parent',[VendorCategoryController::class,'parentCategory']);
+    Route::post('getCategory',[VendorCategoryController::class,'getCategory']);
     Route::get('/{id}',[VendorCategoryController::class,'show']);
     Route::get('images/{id}',[VendorCategoryController::class,'showImage']);
     Route::post('add',[VendorCategoryController::class,'store']);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller as Controller;
 use App\Models\Vendor;
+use App\Models\VendorCategory;
 use App\Models\Image;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,6 +16,30 @@ class VendorController extends Controller
     public function index(): JsonResponse
     {
         $Vendor = Vendor::where('isActive', 1)->with('PackageDetail')->get()->each(function ($Vendor) {
+            $Vendor->packageName = $Vendor->PackageDetail->packageName;  
+            $Vendor->setHidden(['PackageDetail']); 
+         });
+        if ($Vendor != null) {
+            return $this->sendResponse('success', $Vendor, 'Vendor Found.');
+        } else {
+            return $this->sendResponse('failure', $Vendor, 'No Vendor Found.');
+        }
+
+    }
+
+    public function category(Request $request): JsonResponse
+    {
+        $id=$request->post('categoryID');
+        $categoryData = VendorCategory::where('isActive',1)->where('parentID',$id)->get();
+        if($categoryData != null){
+            foreach ($categoryData as $category) {
+                $id .=",".$category['categoryID']; 
+            }
+        }
+        $ids = explode(",",$id);
+        
+
+        $Vendor = Vendor::where('isActive', 1)->with('PackageDetail')->whereIn('category', $ids)->get()->each(function ($Vendor) {
             $Vendor->packageName = $Vendor->PackageDetail->packageName;  
             $Vendor->setHidden(['PackageDetail']); 
          });

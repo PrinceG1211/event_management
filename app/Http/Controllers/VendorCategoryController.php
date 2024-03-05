@@ -36,6 +36,17 @@ class VendorCategoryController extends Controller
 
     }
 
+    public function getCategory(Request $request): JsonResponse
+    {
+        $id=$request->post('parentID');
+         $VendorCategory = VendorCategory::where('isActive', 1)->where('parentID', $id)->get();
+        if ($VendorCategory != null) {
+            return $this->sendResponse('success', $VendorCategory, 'Vendor Category Found.');
+        } else {
+            return $this->sendResponse('failure', $VendorCategory, 'No Vendor Category Found.');
+        }
+
+    }
     
     public function parentCategory(): JsonResponse
     {
@@ -55,6 +66,7 @@ class VendorCategoryController extends Controller
         $validator = Validator::make($input, [
             
             'categoryName' => 'required',
+            'image' => 'required',
             'parentID' => 'required',
             
         ]);
@@ -66,6 +78,8 @@ class VendorCategoryController extends Controller
         $VendorCategory = new VendorCategory();
         $VendorCategory->categoryID = $request->post('categoryID');
         $VendorCategory->categoryName = $request->post('categoryName');
+        $image = $request->file('image');
+        $VendorCategory->image = $this->uploadImage($image, "VendorCategory");
         $VendorCategory->parentID = $request->post('parentID');
        
         $VendorCategory->save();
@@ -101,6 +115,11 @@ class VendorCategoryController extends Controller
         $VendorCategory = VendorCategory::find($id);
         if ($VendorCategory != null) {
             $VendorCategory->categoryName = $request->post('categoryName');
+            $image= $request->file('image');
+            if($image != null){
+                $VendorCategory->image = $this->uploadImage($image, "VendorCategory");
+            }
+            
             $VendorCategory->parentID = $request->post('parentID');
             
             $updated = $VendorCategory->save();

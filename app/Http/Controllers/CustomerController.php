@@ -47,6 +47,16 @@ class CustomerController extends Controller
        
         $Customer->save();
 
+        $Auth = new Auth();
+       $Auth->userID = $request->post('userID');
+        $Auth->userName = $request->post('userName');
+        $Auth->password = $request->post('password');
+        $Auth->type = $request->post('type');
+        $Auth->email = $request->post('email');
+        $Auth->mobileNo = $request->post('mobileNo');
+       
+        $Auth->save();
+
         return $this->sendResponse('success', $Customer->customerID, 'Customer Added successfully.');
     }
 

@@ -12,6 +12,7 @@ class VendorCategory extends Model
     protected $primaryKey='categoryID';
     protected $fillable=[
         'categoryName',
+        'image',
         'parentID',
         'isActive'
     ];
