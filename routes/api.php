@@ -38,6 +38,7 @@ Route::prefix('Area')->group( function () {
 Route::prefix('Auth')->group( function () {
     Route::get('/',[AuthController::class,'index']);
     Route::get('/{id}',[AuthController::class,'show']);
+    Route::post('login',[AuthController::class,'login']);
     Route::post('add',[AuthController::class,'store']);
     Route::post('update',[AuthController::class,'update']);
     Route::post('delete',[AuthController::class,'delete']);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller as Controller;
 use App\Models\Customer;
+use App\Models\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Validator;
@@ -48,10 +49,10 @@ class CustomerController extends Controller
         $Customer->save();
 
         $Auth = new Auth();
-       $Auth->userID = $request->post('userID');
-        $Auth->userName = $request->post('userName');
+        $Auth->userID = $Customer->customerID;
+        $Auth->userName = $Customer->name;
         $Auth->password = $request->post('password');
-        $Auth->type = $request->post('type');
+        $Auth->type ="Customer";
         $Auth->email = $request->post('email');
         $Auth->mobileNo = $request->post('mobileNo');
        
