@@ -34,7 +34,7 @@ class HotelController extends Controller
         $validator = Validator::make($input, [
             
             'packageID' => 'required',
-            'hotelname' => 'required',
+            'hotelName' => 'required',
             'rating' => 'required',
             'email' => 'required',
             'mobileNo' => 'required',
@@ -52,7 +52,7 @@ class HotelController extends Controller
         $Hotel = new Hotel();
         $Hotel->hotelID = $request->post('hotelID');
         $Hotel->packageID = $request->post('packageID');
-        $Hotel->hotelname = $request->post('hotelname');
+        $Hotel->hotelName = $request->post('hotelName');
         $Hotel->rating = $request->post('rating');
         $Hotel->email = $request->post('email');
         $Hotel->mobileNo = $request->post('mobileNo');
@@ -88,7 +88,7 @@ class HotelController extends Controller
 
         $validator = Validator::make($input, [
             'packageID' => 'required',
-            'hotelname' => 'required',
+            'hotelName' => 'required',
             'rating' => 'required',
             'email' => 'required',
             'mobileNo' => 'required',
@@ -108,7 +108,7 @@ class HotelController extends Controller
         if ($Hotel != null) {
             $Hotel->hotelID = $request->post('hotelID');
         $Hotel->packageID = $request->post('packageID');
-        $Hotel->hotelname = $request->post('hotelname');
+        $Hotel->hotelName = $request->post('hotelName');
         $Hotel->rating = $request->post('rating');
         $Hotel->email = $request->post('email');
         $Hotel->mobileNo = $request->post('mobileNo');

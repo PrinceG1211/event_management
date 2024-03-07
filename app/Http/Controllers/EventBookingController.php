@@ -33,16 +33,10 @@ class EventBookingController extends Controller
 
         $validator = Validator::make($input, [
             'bookingType' => 'required',
-            'eventID' => 'required',
             'customerID' => 'required',
-            'bookingDate' => 'required',
             'bookingStartDate' => 'required',
             'bookingEndDate' => 'required',
-            'bookingStatus' => 'required',
-            'venue' => 'required',
             'noOfGuest' => 'required',
-            'subTotal' => 'required',
-            'totalCost' => 'required',
             'packageID' => 'required',
             
         ]);
@@ -52,18 +46,15 @@ class EventBookingController extends Controller
         }
 
         $EventBooking = new EventBooking();
-        $EventBooking->bookingID = $request->post('bookingID');
         $EventBooking->bookingType = $request->post('bookingType');
-        $EventBooking->eventID = $request->post('eventID');
         $EventBooking->customerID = $request->post('customerID');
-        $EventBooking->bookingDate = $request->post('bookingDate');
+        $EventBooking->bookingDate = date('Y-m-d');
         $EventBooking->bookingStartDate = $request->post('bookingStartDate');
         $EventBooking->bookingEndDate = $request->post('bookingEndDate');
-        $EventBooking->bookingStatus = $request->post('bookingStatus');
-        $EventBooking->venue = $request->post('venue');
+        $EventBooking->bookingStatus = "Pending";
         $EventBooking->noOfGuest = $request->post('noOfGuest');
-        $EventBooking->subTotal = $request->post('subTotal');
-        $EventBooking->totalCost = $request->post('totalCost');
+        $EventBooking->subTotal = 0;
+        $EventBooking->totalCost = 0;
         $EventBooking->packageID = $request->post('packageID');
        
         $EventBooking->save();

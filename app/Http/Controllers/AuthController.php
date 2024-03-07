@@ -27,7 +27,7 @@ class AuthController extends Controller
     {
         $email=$request->post('email');
         $password=$request->post('password');
-        $Auth = Auth::where('isActive', 1)->where('email', $email)->where('password', $password)->get();
+        $Auth = Auth::where('isActive', 1)->where('email', $email)->where('password', $password)->first();
         if ($Auth != null) {
             return $this->sendResponse('success', $Auth, 'Auth Found.');
         } else {
