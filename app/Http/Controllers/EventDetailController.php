@@ -28,17 +28,32 @@ class EventDetailController extends Controller
 
     }
 
+    public function getbyevent($id): JsonResponse
+    {
+        $EventDetail =  EventDetail::where('isActive', 1)->where('eventID', $id)->get()->each(function ($EventDetail) {
+            $EventDetail->vendorName= $EventDetail->Vendor->vendorName;
+            $EventDetail->businessName= $EventDetail->Vendor->bname;
+            $EventDetail->setHidden(['Vendor']);
+           
+          });  
+
+       if ($EventDetail != null) {
+        return $this->sendResponse('success', $EventDetail, ' EventDetail Found.');
+    } else {
+        return $this->sendResponse('failure', $EventDetail, 'No  EventDetail Found.');
+    }
+     }
+
     public function store(Request $request): JsonResponse
     {
         $input = $request->all();
 
         $validator = Validator::make($input, [
-            'EventID' => 'required',
-            'VendorID' => 'required',
+            'eventID' => 'required',
+            'vendorID' => 'required',
             'date' => 'required',
             'cost' => 'required',
             'details' => 'required',
-            'status' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -51,7 +66,7 @@ class EventDetailController extends Controller
         $EventDetail->date = $request->post('date');
         $EventDetail->cost = $request->post('cost');
         $EventDetail->details = $request->post('details');
-        $EventDetail->status = $request->post('status');
+        $EventDetail->status = "Pending";
        
         $EventDetail->save();
 

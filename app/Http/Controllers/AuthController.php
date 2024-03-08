@@ -36,6 +36,19 @@ class AuthController extends Controller
 
     }
 
+    public function adminlogin(Request $request): JsonResponse
+    {
+        $email=$request->post('email');
+        $password=$request->post('password');
+        $Auth = Auth::where('isActive', 1)->where('email', $email)->where('password', $password)->first();
+        if ($Auth != null) {
+            return $this->sendResponse('success', $Auth, 'Auth Found.');
+        } else {
+            return $this->sendResponse('failure', $Auth, 'No Auth Found.');
+        }
+
+    }
+
     public function store(Request $request): JsonResponse
     {
         $input = $request->all();

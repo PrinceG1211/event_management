@@ -39,6 +39,7 @@ Route::prefix('Auth')->group( function () {
     Route::get('/',[AuthController::class,'index']);
     Route::get('/{id}',[AuthController::class,'show']);
     Route::post('login',[AuthController::class,'login']);
+    Route::post('adminlogin',[AuthController::class,'adminlogin']);
     Route::post('add',[AuthController::class,'store']);
     Route::post('update',[AuthController::class,'update']);
     Route::post('delete',[AuthController::class,'delete']);
@@ -87,6 +88,7 @@ Route::prefix('EventBooking')->group( function () {
 Route::prefix('EventDetail')->group( function () {
     Route::get('/',[EventDetailController::class,'index']);
     Route::get('/{id}',[EventDetailController::class,'show']);
+    Route::get('getbyevent/{id}',[EventDetailController::class,'getbyevent']);
     Route::post('add',[EventDetailController::class,'store']);
     Route::post('update',[EventDetailController::class,'update']);
     Route::post('delete',[EventDetailController::class,'delete']);
