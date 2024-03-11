@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller as Controller;
 use App\Models\EventDetail;
+use App\Models\EventBooking;
+use App\Models\PackageDetail;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Validator;
@@ -61,7 +63,7 @@ class EventDetailController extends Controller
         }
 
         $EventDetail = new EventDetail();
-        $EventDetail-> EventID = $request->post('eventID');
+        $EventDetail->EventID = $request->post('eventID');
         $EventDetail->VendorID = $request->post('vendorID');
         $EventDetail->date = $request->post('date');
         $EventDetail->cost = $request->post('cost');
@@ -69,6 +71,12 @@ class EventDetailController extends Controller
         $EventDetail->status = "Pending";
        
         $EventDetail->save();
+        $EventBooking = EventBooking::where('isActive', 1)->where('EventID', $EventDetail->EventID)->first();
+        $packageData = PackageDetail::where('isActive',1)->where('packageID', $EventBooking->packageID)->first();
+    
+        $EventBooking->subTotal= (int)$EventBooking->subTotal + (int)$EventDetail->cost;
+        $EventBooking->totalCost= (int)$EventBooking->subTotal+(int) $packageData->price;
+        $EventBooking->save();
 
         return $this->sendResponse('success', $EventDetail->EventID, 'EventDetail created successfully.');
     }

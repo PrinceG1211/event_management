@@ -79,7 +79,9 @@ Route::prefix('EmployeeEvent')->group( function () {
 
 Route::prefix('EventBooking')->group( function () {
     Route::get('/',[EventBookingController::class,'index']);
+    Route::get('income',[EventBookingController::class,'income']);
     Route::get('/{id}',[EventBookingController::class,'show']);
+    Route::get('getbyeventbooking/{id}',[EventBookingController::class,'getbyeventbooking']);
     Route::post('add',[EventBookingController::class,'store']);
     Route::post('update',[EventBookingController::class,'update']);
     Route::post('delete',[EventBookingController::class,'delete']);
