@@ -98,26 +98,26 @@ class EventDetailController extends Controller
 
         $validator = Validator::make($input, [
             'EventID' => 'required',
-            'VendorID' => 'required',
-            'date' => 'required',
-            'cost' => 'required',
-            'details' => 'required',
-            'status' => 'required',
+            // 'VendorID' => 'required',
+            // 'date' => 'required',
+            // 'cost' => 'required',
+            // 'details' => 'required',
+             'status' => 'required',
         ]);
 
         if ($validator->fails()) {
             return $this->sendResponse('failure', 'Validation Error.', $validator->errors());
         }
 
-        $id = $request->post('EventDetail');
+        $id = $request->post('eventID');
         $EventDetail = EventDetail::find($id);
         if ($EventDetail != null) {
             $EventDetail = new EventDetail();
             $EventDetail-> EventID   = $request->post('eventID');
-            $EventDetail->VendorID = $request->post('vendorID');
-            $EventDetail->date = $request->post('date');
-            $EventDetail->cost = $request->post('cost');
-            $EventDetail->details = $request->post('details');
+            // $EventDetail->VendorID = $request->post('vendorID');
+            // $EventDetail->date = $request->post('date');
+            // $EventDetail->cost = $request->post('cost');
+            // $EventDetail->details = $request->post('details');
             $EventDetail->status = $request->post('status');
            
             $updated = $EventDetail->save();
