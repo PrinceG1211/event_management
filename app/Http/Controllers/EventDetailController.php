@@ -71,8 +71,8 @@ class EventDetailController extends Controller
         $EventDetail->status = "Pending";
        
         $EventDetail->save();
-        $EventBooking = EventBooking::where('isActive', 1)->where('EventID', $EventDetail->EventID)->first();
-        $packageData = PackageDetail::where('isActive',1)->where('packageID', $EventBooking->packageID)->first();
+        $EventBooking = EventBooking::where('isActive', 1)->where('bookingID', $EventDetail->EventID)->first();
+         $packageData = PackageDetail::where('isActive',1)->where('packageID', $EventBooking->packageID)->first();
     
         $EventBooking->subTotal= (int)$EventBooking->subTotal + (int)$EventDetail->cost;
         $EventBooking->totalCost= (int)$EventBooking->subTotal+(int) $packageData->price;
