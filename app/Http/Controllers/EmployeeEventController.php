@@ -13,10 +13,13 @@ class EmployeeEventController extends Controller
 
     public function index(): JsonResponse
     {
-        $EmployeeEvent = EmployeeEvent::where('isActive', 1)->with('Employee','EventBooking')->get()->each(function ($EmployeeEvent) {
+        $EmployeeEvent = EmployeeEvent::where('isActive', 1)->with('Employee','EventBooking.Customer')->get()->each(function ($EmployeeEvent) {
          
          $EmployeeEvent->employeeName = $EmployeeEvent->Employee->name;
-         $EmployeeEvent->bookingType = $EmployeeEvent->EventBooking->bookingType; // Add EmployeeEventID
+         $EmployeeEvent->bookingType = $EmployeeEvent->EventBooking->bookingType;
+         $EmployeeEvent->customerName = $EmployeeEvent->EventBooking->Customer->name;
+          // Add EmployeeEventID
+          $EmployeeEvent->setHidden(['EventBooking','Employee']);
        });
 
         if ($EmployeeEvent != null) {
@@ -32,7 +35,6 @@ class EmployeeEventController extends Controller
         $input = $request->all();
 
         $validator = Validator::make($input, [
-            'EmployeeEventID' => 'required',
             'EmployeeID' => 'required',
             'EventID' => 'required',
         ]);
@@ -42,7 +44,6 @@ class EmployeeEventController extends Controller
         }
 
         $EmployeeEvent = new EmployeeEvent();
-        $EmployeeEvent-> EmployeeEventID = $request->post('EmployeeEventID');
         $EmployeeEvent->EmployeeID = $request->post('EmployeeID');
         $EmployeeEvent->EventID = $request->post('EventID');
        
@@ -79,8 +80,6 @@ class EmployeeEventController extends Controller
         $id = $request->post('EmployeeEventID');
         $EmployeeEvent = EmployeeEvent::find($id);
         if ($EmployeeEvent != null) {
-            $EmployeeEvent = new EmployeeEvent();
-            $EmployeeEvent-> EmployeeEventID = $request->post('EmployeeEventID');
             $EmployeeEvent->EmployeeID = $request->post('EmployeeID');
             $EmployeeEvent->EventID = $request->post('EventID');
            
