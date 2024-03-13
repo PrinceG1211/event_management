@@ -46,12 +46,6 @@ class EmployeeEvent extends Model
 
      }
 
-     public function EventBooking()
-     {
-         return $this->belongsTo(EventBooking::class, 'eventID');
-
-     }
-
 }
 
 ?>

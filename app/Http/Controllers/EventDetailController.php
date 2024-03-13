@@ -83,7 +83,7 @@ class EventDetailController extends Controller
 
     public function show($id): JsonResponse
     {
-        $EventDetail = EventDetail::where('isActive', 1)->where('EventID', $id)->first();
+        $EventDetail = EventDetail::where('isActive', 1)->where('eventDetailID', $id)->first();
 
         if (is_null($EventDetail)) {
             return $this->sendResponse('failure', $EventDetail, 'No EventDetail Found.');
@@ -97,8 +97,8 @@ class EventDetailController extends Controller
         $input = $request->all();
 
         $validator = Validator::make($input, [
-            'EventID' => 'required',
-            'VendorID' => 'required',
+            'eventID' => 'required' ,
+            'vendorID' => 'required',
             'date' => 'required',
             'cost' => 'required',
             'details' => 'required',
@@ -109,14 +109,14 @@ class EventDetailController extends Controller
             return $this->sendResponse('failure', 'Validation Error.', $validator->errors());
         }
 
-        $id = $request->post('EventDetail');
+        $id = $request->post('eventDetailID');
         $EventDetail = EventDetail::find($id);
         if ($EventDetail != null) {
-            $EventDetail-> EventID   = $request->post('eventID');
-            // $EventDetail->VendorID = $request->post('vendorID');
-            // $EventDetail->date = $request->post('date');
-            // $EventDetail->cost = $request->post('cost');
-            // $EventDetail->details = $request->post('details');
+            $EventDetail->EventID   = $request->post('eventID');
+            $EventDetail->VendorID = $request->post('vendorID');
+            $EventDetail->date = $request->post('date');
+            $EventDetail->cost = $request->post('cost');
+            $EventDetail->details = $request->post('details');
             $EventDetail->status = $request->post('status');
            
             $updated = $EventDetail->save();
