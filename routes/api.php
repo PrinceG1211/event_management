@@ -72,6 +72,7 @@ Route::prefix('Employee')->group( function () {
 Route::prefix('EmployeeEvent')->group( function () {
     Route::get('/',[EmployeeEventController::class,'index']);
     Route::get('/{id}',[EmployeeEventController::class,'show']);
+    Route::get('getbyeventid/{id}',[EmployeeEventController::class,'getbyeventid']);
     Route::post('add',[EmployeeEventController::class,'store']);
     Route::post('update',[EmployeeEventController::class,'update']);
     Route::post('delete',[EmployeeEventController::class,'delete']);

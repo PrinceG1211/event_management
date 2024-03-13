@@ -16,6 +16,7 @@ class EventDetail extends Model
         'date',
         'cost',
         'details',
+        'type',
         'status',
         'isActive'
     ];
@@ -41,6 +42,11 @@ class EventDetail extends Model
      public function Vendor()
      {
          return $this->belongsTo(Vendor::class, 'vendorID');
+
+     }
+     public function Venue()
+     {
+         return $this->belongsTo(Venue::class, 'vendorID');
 
      }
 }

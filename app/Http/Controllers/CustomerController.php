@@ -88,8 +88,7 @@ class CustomerController extends Controller
         $id = $request->post('customerID');
         $Customer = Customer::find($id);
         if ($Customer != null) {
-            $Customer = new Customer();
-            $Customer->CustomerID = $request->post('customerID');
+            
             $Customer->name = $request->post('name');
             $Customer->email = $request->post('email');
             $Customer->mobileNo = $request->post('mobileNo');

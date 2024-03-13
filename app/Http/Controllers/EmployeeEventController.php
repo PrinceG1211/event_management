@@ -14,16 +14,59 @@ class EmployeeEventController extends Controller
     public function index(): JsonResponse
     {
         $EmployeeEvent = EmployeeEvent::where('isActive', 1)->with('Employee','EventBooking.Customer')->get()->each(function ($EmployeeEvent) {
+            $EmployeeEvent->employeeName = "N/A";
+            $EmployeeEvent->bookingType = "N/A";
+            $EmployeeEvent->customerName = "N/A";
+            if($EmployeeEvent->Employee){
+                $EmployeeEvent->employeeName = $EmployeeEvent->Employee->name;
+            }
+            if($EmployeeEvent->EventBooking){
+                $EmployeeEvent->bookingType = $EmployeeEvent->EventBooking->bookingType;
+                if($EmployeeEvent->EventBooking->Customer){
+                    $EmployeeEvent->customerName = $EmployeeEvent->EventBooking->Customer->name;
+                }
          
-         $EmployeeEvent->employeeName = $EmployeeEvent->Employee->name;
-         $EmployeeEvent->bookingType = $EmployeeEvent->EventBooking->bookingType;
-         $EmployeeEvent->customerName = $EmployeeEvent->EventBooking->Customer->name;
+            }
+         
+         
           // Add EmployeeEventID
           $EmployeeEvent->setHidden(['EventBooking','Employee']);
        });
 
         if ($EmployeeEvent != null) {
             return $this->sendResponse('success', $EmployeeEvent, 'EmployeeEvent Found.');
+        } else {
+            return $this->sendResponse('failure', $EmployeeEvent, 'No EmployeeEvent Found.');
+        }
+
+    }
+
+    public function getbyeventid($id): JsonResponse
+    {
+        $EmployeeEvent = EmployeeEvent::where('isActive', 1)->where('eventID', $id)->with('Employee','EventBooking.Customer')->get()->each(function ($EmployeeEvent) {
+            $EmployeeEvent->employeeName = "N/A";
+            $EmployeeEvent->mobileNo = "N/A";
+            $EmployeeEvent->bookingType = "N/A";
+            $EmployeeEvent->customerName = "N/A";
+            if($EmployeeEvent->Employee){
+                $EmployeeEvent->employeeName = $EmployeeEvent->Employee->name;
+                $EmployeeEvent->mobileNo = $EmployeeEvent->Employee->mobileNo;
+            }
+            if($EmployeeEvent->EventBooking){
+                $EmployeeEvent->bookingType = $EmployeeEvent->EventBooking->bookingType;
+                if($EmployeeEvent->EventBooking->Customer){
+                    $EmployeeEvent->customerName = $EmployeeEvent->EventBooking->Customer->name;
+                }
+         
+            }
+         
+         
+          // Add EmployeeEventID
+          $EmployeeEvent->setHidden(['EventBooking','Employee']);
+       });
+
+        if ($EmployeeEvent != null) {
+            return $this->sendResponse('success', $EmployeeEvent[0], 'EmployeeEvent Found.');
         } else {
             return $this->sendResponse('failure', $EmployeeEvent, 'No EmployeeEvent Found.');
         }

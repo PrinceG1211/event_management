@@ -15,10 +15,17 @@ class EventDetailController extends Controller
 
     public function index(): JsonResponse
     {
-        $EventDetail =  EventDetail::where('isActive', 1)->with('Vendor')->get()->each(function ($EventDetail) {
-         $EventDetail->vendorName= $EventDetail->Vendor->vendorName;
-         $EventDetail->businessName= $EventDetail->Vendor->bname;
-         $EventDetail->setHidden(['Vendor']);
+        $EventDetail =  EventDetail::where('isActive', 1)->with('Vendor','Venue')->get()->each(function ($EventDetail) {
+            if($EventDetail->type =="venue"){
+                $EventDetail->vendorName= $EventDetail->Venue->venueName;
+                $EventDetail->businessName= "";
+               
+            }else{
+                $EventDetail->vendorName= $EventDetail->Vendor->vendorName;
+                $EventDetail->businessName= $EventDetail->Vendor->bname;
+               
+            }
+         $EventDetail->setHidden(['Vendor','Venue']);
         
        });  
 
@@ -32,12 +39,19 @@ class EventDetailController extends Controller
 
     public function getbyevent($id): JsonResponse
     {
-        $EventDetail =  EventDetail::where('isActive', 1)->where('eventID', $id)->get()->each(function ($EventDetail) {
-            $EventDetail->vendorName= $EventDetail->Vendor->vendorName;
-            $EventDetail->businessName= $EventDetail->Vendor->bname;
-            $EventDetail->setHidden(['Vendor']);
-           
-          });  
+        $EventDetail =  EventDetail::where('isActive', 1)->where('eventID', $id)->with('Vendor','Venue')->get()->each(function ($EventDetail) {
+            if($EventDetail->type =="venue"){
+                $EventDetail->vendorName= $EventDetail->Venue->venueName;
+                $EventDetail->businessName= "";
+               
+            }else{
+                $EventDetail->vendorName= $EventDetail->Vendor->vendorName;
+                $EventDetail->businessName= $EventDetail->Vendor->bname;
+               
+            }
+         $EventDetail->setHidden(['Vendor','Venue']);
+        
+       });  
 
        if ($EventDetail != null) {
         return $this->sendResponse('success', $EventDetail, ' EventDetail Found.');
@@ -68,6 +82,7 @@ class EventDetailController extends Controller
         $EventDetail->date = $request->post('date');
         $EventDetail->cost = $request->post('cost');
         $EventDetail->details = $request->post('details');
+        $EventDetail->type = $request->post('type');
         $EventDetail->status = "Pending";
        
         $EventDetail->save();
