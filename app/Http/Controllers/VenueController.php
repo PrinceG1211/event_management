@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller as Controller;
 use App\Models\Venue;
+use App\Models\Auth;
 use App\Models\image;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -66,6 +67,14 @@ class VenueController extends Controller
         $Venue->packageID = $request->post('packageID');
         
         $Venue->save();
+
+        $Auth = new Auth();
+        $Auth->userID = $Venue->venueID;
+        $Auth->userName = $Venue->name;
+        $Auth->password = $request->post('mobileNo');
+        $Auth->type ="Venue";
+        $Auth->email = $request->post('email');
+        $Auth->mobileNo = $request->post('mobileNo');
 
         
         return $this->sendResponse('success', $Venue->venueID, 'Venue Added successfully.');

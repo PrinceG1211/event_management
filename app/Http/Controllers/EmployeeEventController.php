@@ -64,8 +64,7 @@ class EmployeeEventController extends Controller
           // Add EmployeeEventID
           $EmployeeEvent->setHidden(['EventBooking','Employee']);
        });
-
-        if ($EmployeeEvent != null) {
+        if ($EmployeeEvent->isNotEmpty()) {
             return $this->sendResponse('success', $EmployeeEvent[0], 'EmployeeEvent Found.');
         } else {
             return $this->sendResponse('failure', $EmployeeEvent, 'No EmployeeEvent Found.');

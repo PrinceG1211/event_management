@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller as Controller;
 use App\Models\Vendor;
+use App\Models\Auth;
 use App\Models\VendorCategory;
 use App\Models\Image;
 use Illuminate\Http\JsonResponse;
@@ -89,6 +90,13 @@ class VendorController extends Controller
        
         $Vendor->save();
 
+        $Auth = new Auth();
+        $Auth->userID = $Vendor->vendorID;
+        $Auth->userName = $Vendor->name;
+        $Auth->password = $request->post('mobileNo');
+        $Auth->type ="Vendor";
+        $Auth->email = $request->post('email');
+        $Auth->mobileNo = $request->post('mobileNo');
         
         return $this->sendResponse('success', $Vendor->vendorID, 'Vendor Added successfully.');
     }

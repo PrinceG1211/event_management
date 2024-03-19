@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller as Controller;
 use App\Models\Employee;
+use App\Models\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Validator;
@@ -53,6 +54,16 @@ class EmployeeController extends Controller
        
         $Employee->save();
 
+        
+        $Auth = new Auth();
+        $Auth->userID = $Employee->employeeID;
+        $Auth->userName = $Employee->name;
+        $Auth->password = $request->post('mobileNo');
+        $Auth->type ="Employee";
+        $Auth->email = $request->post('email');
+        $Auth->mobileNo = $request->post('mobileNo');
+       
+        $Auth->save();
         return $this->sendResponse('success', $Employee->employeeID, 'Employee Added successfully.');
     }
 
