@@ -31,6 +31,7 @@ class VendorController extends Controller
     public function category(Request $request): JsonResponse
     {
         $id=$request->post('categoryID');
+        $packageID=$request->post('packageID');
         $categoryData = VendorCategory::where('isActive',1)->where('parentID',$id)->get();
         if($categoryData != null){
             foreach ($categoryData as $category) {
@@ -40,7 +41,7 @@ class VendorController extends Controller
         $ids = explode(",",$id);
         
 
-        $Vendor = Vendor::where('isActive', 1)->with('PackageDetail')->whereIn('category', $ids)->get()->each(function ($Vendor) {
+        $Vendor = Vendor::where('isActive', 1)->with('PackageDetail')->whereIn('category', $ids)->where('packageID',$packageID)->get()->each(function ($Vendor) {
             $Vendor->packageName = $Vendor->PackageDetail->packageName;  
             $Vendor->setHidden(['PackageDetail']); 
          });

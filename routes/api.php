@@ -83,6 +83,8 @@ Route::prefix('EventBooking')->group( function () {
     Route::get('income',[EventBookingController::class,'income']);
     Route::get('/{id}',[EventBookingController::class,'show']);
     Route::get('getbyeventbooking/{id}',[EventBookingController::class,'getbyeventbooking']);
+    Route::get('getbyeventbookingVendor/{id}',[EventBookingController::class,'getbyeventbookingvendor']);
+    Route::get('getbyeventbookingVenue/{id}',[EventBookingController::class,'getbyeventbookingvenue']);
     Route::post('add',[EventBookingController::class,'store']);
     Route::post('update',[EventBookingController::class,'update']);
     Route::post('delete',[EventBookingController::class,'delete']);
@@ -92,6 +94,8 @@ Route::prefix('EventDetail')->group( function () {
     Route::get('/',[EventDetailController::class,'index']);
     Route::get('/{id}',[EventDetailController::class,'show']);
     Route::get('getbyevent/{id}',[EventDetailController::class,'getbyevent']);
+    Route::get('getbyeventVendor/{id}/{vendorID}',[EventDetailController::class,'getbyeventVendor']);
+    Route::get('getbyeventVenue/{id}/{vendorID}',[EventDetailController::class,'getbyeventVenue']);
     Route::post('add',[EventDetailController::class,'store']);
     Route::post('update',[EventDetailController::class,'update']);
     Route::post('delete',[EventDetailController::class,'delete']);

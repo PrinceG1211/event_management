@@ -39,6 +39,11 @@ class EventDetail extends Model
         });
     }
 
+    public function EventBooking()
+     {
+         return $this->belongsTo(EventBooking::class, 'eventID');
+
+     }
      public function Vendor()
      {
          return $this->belongsTo(Vendor::class, 'vendorID');
