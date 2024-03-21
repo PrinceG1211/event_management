@@ -51,6 +51,28 @@ class EventBookingController extends Controller
             return $this->sendResponse('failure', null, 'No EventBooking Found.');
         }
     }
+    public function getbyVendorincome($id): JsonResponse
+    {
+        $eventDetails = EventDetail::where('isActive', 1)
+            ->where('vendorID', $id)
+            ->where('type', 'vendor')
+            ->with('EventBooking')
+            ->get();
+
+            $totalPackagePrice = $eventDetails->sum(function ($booking) {
+                return (float) $booking->cost; // Replace 'price' with the actual package price attribute
+            });
+    
+            if ($eventDetails->isNotEmpty()) {
+                // Include totalPackagePrice in the response
+                $data = [
+                    'TotalPackagePrice' => $totalPackagePrice,
+                ];
+                return $this->sendResponse('success', $data, 'EventBooking Found.');
+            } else {
+                return $this->sendResponse('failure', null, 'No EventBooking Found.');
+            }
+    }
     public function getbyeventbooking($id): JsonResponse
     {
         $EventBooking = EventBooking::where('isActive', 1)->where('customerID', $id)->with('PackageDetail', 'Customer')->get()->each(function ($EventBooking) {

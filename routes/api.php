@@ -81,6 +81,7 @@ Route::prefix('EmployeeEvent')->group( function () {
 Route::prefix('EventBooking')->group( function () {
     Route::get('/',[EventBookingController::class,'index']);
     Route::get('income',[EventBookingController::class,'income']);
+    Route::get('getbyVendorincome/{id}',[EventBookingController::class,'getbyVendorincome']);
     Route::get('/{id}',[EventBookingController::class,'show']);
     Route::get('getbyeventbooking/{id}',[EventBookingController::class,'getbyeventbooking']);
     Route::get('getbyeventbookingVendor/{id}',[EventBookingController::class,'getbyeventbookingvendor']);
