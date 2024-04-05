@@ -40,13 +40,20 @@ class EventDetailController extends Controller
     public function getbyevent($id): JsonResponse
     {
         $EventDetail = EventDetail::where('isActive', 1)->where('eventID', $id)->with('Vendor', 'Venue')->get()->each(function ($EventDetail) {
+            $EventDetail->vendorName = "N/A";
+            $EventDetail->businessName = "N/A";
             if ($EventDetail->type == "venue") {
-                $EventDetail->vendorName = $EventDetail->Venue->venueName;
-                $EventDetail->businessName = "";
+                if($EventDetail->Venue != null){
+                    $EventDetail->vendorName = $EventDetail->Venue->venueName;
+                    $EventDetail->businessName = "";
+                }
+                
 
             } else {
+                if($EventDetail->Vendor != null){
                 $EventDetail->vendorName = $EventDetail->Vendor->vendorName;
                 $EventDetail->businessName = $EventDetail->Vendor->bname;
+                }
 
             }
             $EventDetail->setHidden(['Vendor', 'Venue']);

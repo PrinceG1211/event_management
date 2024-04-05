@@ -71,7 +71,7 @@ class AuthController extends Controller
         $Auth->authID = $request->post('authID');
         $Auth->userID = $request->post('userID');
         $Auth->userName = $request->post('userName');
-        $Auth->password = $request->post('password');
+        $Auth->password = trim($request->post('password'));
         $Auth->type = $request->post('type');
         $Auth->email = $request->post('email');
         $Auth->mobileNo = $request->post('mobileNo');
